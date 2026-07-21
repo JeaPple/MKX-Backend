@@ -6,7 +6,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
-//@EnableScheduling - 카프카 소스커넥트 사용으로 인한 '비활성화'
+@EnableScheduling // - 카프카 소스커넥트 사용으로 인한 '비활성화'
 @SpringBootApplication
 @EnableFeignClients
 @EnableDiscoveryClient

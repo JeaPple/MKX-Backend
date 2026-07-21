@@ -47,6 +47,20 @@ public class KafkaProducerConfig {
     }
 
     /**
+     * orderOutbox 전용 KafkaTemplate
+     */
+    @Bean
+    public ProducerFactory<String, Object> orderOutboxProducerFactory() {
+        Map<String, Object> config = new HashMap<>();
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        return new DefaultKafkaProducerFactory<>(config);
+    }
+
+    /// ---------------** KafkaTemplates **------------------------- //
+
+    /**
      * TransactionEvent 전용 KafkaTemplate
      */
     @Bean
@@ -58,4 +72,13 @@ public class KafkaProducerConfig {
     public KafkaTemplate<Object, Object> dlqKafkaTemplate() {
         return new KafkaTemplate<>(dlqProducerFactory());
     }
+
+    /**
+     * orderOutbox 전용 KafkaTemplate
+     */
+    @Bean
+    public KafkaTemplate<String, Object> orderOutboxKafkaTemplate() {
+        return new KafkaTemplate<>(orderOutboxProducerFactory());
+    }
+
 }

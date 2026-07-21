@@ -14,8 +14,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name = "order_outbox"
-//        ,indexes = {
-//        @Index(name = "idx_is_published_created_at", columnList = "is_published, created_at")}
+        ,indexes = {
+        @Index(name = "idx_is_published_created_at", columnList = "is_published, created_at")}
 )
 @Builder
 public class OrderOutbox {
@@ -51,6 +51,7 @@ public class OrderOutbox {
      * Polling 방식에서 CDC(Outbox + Debezium)로 전환하면서 outbox는 INSERT-only로 운영합니다.
      * is_published 플래그와 관련 메서드는 더 이상 사용하지 않아 혼선을 막기 위해 비활성화했습니다.
      * 이 필드는 스키마 마이그레이션 시 제거될 예정입니다.
+     */
     @Column(name = "is_published", nullable = false)
     @Builder.Default
     private boolean isPublished = false;
@@ -61,5 +62,4 @@ public class OrderOutbox {
     public void revertToUnpublished() {
         this.isPublished = false;
     }
-     */
 }
