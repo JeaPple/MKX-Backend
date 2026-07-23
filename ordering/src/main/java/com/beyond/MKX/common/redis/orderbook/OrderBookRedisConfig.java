@@ -1,11 +1,12 @@
 package com.beyond.MKX.common.redis.orderbook;
 
+import com.beyond.MKX.common.redis.common.CommonRedisProps;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -13,25 +14,26 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 
 @Configuration
-@EnableConfigurationProperties(OrderBookRedisProps.class)
+@EnableConfigurationProperties(CommonRedisProps.class)
 public class OrderBookRedisConfig {
 
-    private final OrderBookRedisProps props;
+    private final CommonRedisProps props;
 
-    public OrderBookRedisConfig(OrderBookRedisProps props) {
+    public OrderBookRedisConfig(CommonRedisProps props) {
         this.props = props;
     }
 
     @Bean("orderBookConnectionFactory")
     public LettuceConnectionFactory orderBookConnectionFactory() {
-        var clusterCfg = new RedisClusterConfiguration(props.getCluster().getNodes());
-        if (props.getCluster().getMaxRedirects() != null) {
-            clusterCfg.setMaxRedirects(props.getCluster().getMaxRedirects());
-        }
+        var redisConfig = new RedisStandaloneConfiguration();
+        redisConfig.setHostName(props.getHost());
+        redisConfig.setPort(props.getPort());
+        redisConfig.setDatabase(0);
+
         var clientCfg = LettuceClientConfiguration.builder()
                 .commandTimeout(props.getTimeout())
                 .build();
-        return new LettuceConnectionFactory(clusterCfg, clientCfg);
+        return new LettuceConnectionFactory(redisConfig, clientCfg);
     }
 
     @Bean("orderBookRedisTemplate")

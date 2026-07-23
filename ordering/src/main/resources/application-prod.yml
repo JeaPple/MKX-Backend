@@ -14,7 +14,7 @@ spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://${DB_HOST_2}:${DB_PORT_2}/ordering
-    username: admin
+    username: ${DB_USERNAME_2}
     password: ${DB_PASSWORD_2}
   jpa:
     database: mysql
@@ -25,7 +25,7 @@ spring:
     show_sql: true
   kafka:
 #    bootstrap-servers: kafka-bootstrap.kafka.svc.cluster.local:9092
-    bootstrap-servers: kafka-service:9092
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
     consumer:
       execution-group-id: execution-consumer-group
       order-status-group-id: order-status-consumer-group
@@ -38,23 +38,16 @@ spring:
       properties:
         spring.json.trusted.packages: "*"
   redis:
-    common:
-      host: mkx-redis-service
-      port: 6379
-    order-book:
-      cluster:
-        nodes:
-          - ${REDIS_CLUSTER_ENDPOINT}:6379
-        max-redirects: 5
-      timeout: 3000
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+    timeout: 3000ms
 
 
 feign:
   client:
     url:
-      mkx-platform-service: "http://mkx-platform-service"
+      mkx-platform-service: ""
 
 notification:
   ttl-seconds:
     execution: 180
-
