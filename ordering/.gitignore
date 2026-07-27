@@ -39,6 +39,7 @@ out/
 ### yml설정 ###
 application-local.yml
 .env
+.env.infra.example
 
 ### mariadb 런타임 데이터 무시 ###
 /ordering/mysql/data/
