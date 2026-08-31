@@ -38,6 +38,8 @@ out/
 
 ### yml설정 ###
 application-local.yml
+docker-compose.yml
+/ordering/env/
 
 ### mariadb 런타임 데이터 무시 ###
 /ordering/mysql/data/
