@@ -1,5 +1,8 @@
 server:
   port: 8080
+  tomcat:
+    mbeanregistry:
+      enabled: true
 
 eureka:
   client:
@@ -16,6 +19,8 @@ spring:
     url: jdbc:mariadb://${DB_HOST_2}:${DB_PORT_2}/ordering
     username: ${DB_USERNAME_2}
     password: ${DB_PASSWORD_2}
+    hikari:
+      maximum-pool-size: 15
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MariaDBDialect
@@ -51,3 +56,12 @@ feign:
 notification:
   ttl-seconds:
     execution: 180
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+  metrics:
+    tags:
+      application: ordering-service

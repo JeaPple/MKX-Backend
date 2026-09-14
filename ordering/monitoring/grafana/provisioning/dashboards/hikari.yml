@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+  - name: MKX
+    orgId: 1
+    folder: MKX
+    type: file
+    disableDeletion: true
+    editable: false
+    options:
+      path: /var/lib/grafana/dashboards

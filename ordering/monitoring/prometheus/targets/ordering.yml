@@ -1,0 +1,11 @@
+# Add each ordering WAS as PRIVATE_IP:PORT.
+# Prometheus detects changes to this file without a container restart.
+- targets:
+    - 54.116.43.127:8080
+  # Example:
+  # targets:
+  #   - 10.0.1.11:8080
+  #   - 10.0.1.12:8080
+  labels:
+    application: ordering-service
+    environment: load-test
